@@ -1,11 +1,10 @@
 <?php
-// Process form before HTML loads
 $message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $fname = $_POST['fname'];
-    $sname = $_POST['sname'];
-    $email = $_POST['email'];
+    $fname = htmlspecialchars($_POST['fname']);
+    $sname = htmlspecialchars($_POST['sname']);
+    $email = htmlspecialchars($_POST['email']);
 
     $message = "Form submitted successfully!<br>";
     $message .= "Thank you, $fname $sname. Your registration has been received.";
@@ -13,41 +12,87 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Registration</title>
+
     <style>
-        body { font-family: Arial; margin: 40px; }
-        input { padding: 5px; width: 200px; margin-bottom: 10px; }
-        button { padding: 6px 12px; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 300px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #555;
+        }
+
+        .message {
+            margin-top: 15px;
+            color: green;
+            text-align: center;
+        }
     </style>
 </head>
+
 <body>
 
-<h2>User Registration</h2>
+<div class="container">
+    <h2>User Registration</h2>
 
-<form method="POST" action="">
-    <label>First Name:</label><br>
-    <input type="text" name="fname" required><br>
+    <form method="POST" action="">
+        <label>First Name:</label>
+        <input type="text" name="fname" required>
 
-    <label>Second Name:</label><br>
-    <input type="text" name="sname" required><br>
+        <label>Second Name:</label>
+        <input type="text" name="sname" required>
 
-    <label>Email:</label><br>
-    <input type="email" name="email" required><br>
+        <label>Email:</label>
+        <input type="email" name="email" required>
 
-    <label>Password:</label><br>
-    <input type="password" name="password" required><br><br>
+        <label>Password:</label>
+        <input type="password" name="password" required>
 
-    <button type="submit">Register</button>
-</form>
+        <button type="submit">Register</button>
+    </form>
 
-<?php
-// Display message after submission
-if (!empty($message)) {
-    echo "<p>$message</p>";
-}
-?>
+    <?php if (!empty($message)) { ?>
+        <div class="message"><?php echo $message; ?></div>
+    <?php } ?>
+
+</div>
 
 </body>
 </html>
